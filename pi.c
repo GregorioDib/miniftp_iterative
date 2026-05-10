@@ -2,6 +2,7 @@
 #include "pi.h"
 #include "responses.h"
 #include "utils.h"
+#include "logs.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -27,7 +28,7 @@ int welcome(ftp_session_t *sess) {
 
   // Send initial FTP welcome message
   if (safe_dprintf(sess->control_sock, MSG_220) != sizeof(MSG_220) - 1) {
-    fprintf(stderr, "Send error\n");
+    log_error("Send error");
     close_fd(sess->control_sock, "cliente socket");
     return -1;
   }
@@ -41,7 +42,7 @@ int getexe_command(ftp_session_t *sess) {
   // Receive string from CC
   ssize_t len = recv(sess->control_sock, buffer, sizeof(buffer) - 1, 0);
   if (len < 0) {
-    perror("Receive fail: ");
+    log_perror("Receive fail");
     close_fd(sess->control_sock, "cliente socket");
     return -1;
   }

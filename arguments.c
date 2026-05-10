@@ -1,5 +1,6 @@
 #include "config.h"
 #include "arguments.h"
+#include "logs.h"
 #include <string.h>
 #include <argp.h>
 #include <unistd.h>  // for geteuid()
@@ -26,7 +27,7 @@ static int is_valid_local_ip(const char *ip_str) {
   int found = 0;
 
   if (getifaddrs(&ifaddr) == -1) {
-    perror("getifaddrs");
+    log_perror("getifaddrs");
     return 0;
   }
 
