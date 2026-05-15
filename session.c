@@ -9,6 +9,7 @@ ftp_session_t *current_sess = NULL;
 static ftp_session_t sess = {
   .control_sock = -1,
   .data_sock = -1,
+  .mode = MODE_NONE,
   .logged_in = 0,
   .current_user = {0},
 };
@@ -20,6 +21,7 @@ ftp_session_t *session_get(void) {
 void session_init(int control_fd) {
   sess.control_sock = control_fd;
   sess.data_sock = -1;
+  sess.mode = MODE_NONE;
   sess.logged_in = 0;
   memset(sess.current_user, 0, sizeof(sess.current_user));
   memset(&sess.data_addr, 0, sizeof(sess.data_addr));
