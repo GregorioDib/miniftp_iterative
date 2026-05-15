@@ -15,20 +15,34 @@ The objective of the project is to understand:
 ## Current Status
 
 This project currently implements:
-- iterative single-client server
-- blocking I/O
-- FTP control connection
-- basic FTP command handling
+
+- iterative FTP server architecture
+- blocking I/O model
+- FTP control connection handling
+- basic FTP command parsing and dispatching
+- USER / PASS authentication
+- centralized syslog-based logging
+- signal handling (SIGINT / SIGTERM)
+- partial FTP Active Mode (`PORT`) support
+- active data socket connection establishment
+
+Currently missing or incomplete:
+
+- passive mode (`PASV`)
+- file transfer commands (`RETR`, `STOR`)
+- directory listing commands (`LIST`, `NLST`)
+- concurrent clients
+- full daemonization
 
 Implemented FTP commands:
 - USER
 - PASS
 - QUIT
 - SYST
+- PORT (partially)
 
 Declared but currently incomplete commands:
 - TYPE
-- PORT
 - RETR
 - STOR
 - NOOP
@@ -46,9 +60,25 @@ Changes include:
 
 Additional details are documented in:
 
-- `LOGGING.md`
+- `docs/LOGGING.md`
 
 ---
+
+## Active Mode Update (2026-05-15)
+
+On 2026-05-15, FTP Active Mode support was partially implemented through the `PORT` command.
+
+Changes include:
+
+- parsing FTP `PORT` command arguments
+- active-mode session state handling
+- client data socket connection support
+- centralized debug logging for `PORT` requests
+- FTP response handling for active connections
+
+Additional details are documented in:
+
+- `docs/ACTIVE.md`
 
 ## Build
 
@@ -102,6 +132,7 @@ Current limitations include:
 - no TLS/FTPS support
 - no passive mode support
 - not fully daemonized (`fork`, `setsid`, etc. are not implemented)
+- PORT command not fully implemented yet
 
 ---
 
